@@ -1,18 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-public class Test : MonoBehaviour
+public class Test : MonoBehaviour, IPointerClickHandler
 {
-    // Start is called before the first frame update
-    void Start()
+    public Image image;
+
+    public void OnPointerClick(PointerEventData eventData)
     {
-        
+        TestManager.instance.Print(this);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    private void Start() {
+        image = GetComponent<Image>();
     }
 }
