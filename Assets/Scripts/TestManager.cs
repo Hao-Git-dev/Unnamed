@@ -18,6 +18,7 @@ public class TestManager : MonoBehaviour
     public Tree<Test> paths;
     public GameObject gobj;
     public Transform fu;
+    public bool isTEst = false;
     public Test test1;
     private void Start()
     {
@@ -31,7 +32,11 @@ public class TestManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.A))
         {
-            YYYY();
+            StartCoroutine(YYYY());
+        }
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            isTEst = true;
         }
 
     }
@@ -75,8 +80,46 @@ public class TestManager : MonoBehaviour
             }
         }
     }
-    public void Print(Test test)
+    // public void Print(Test test)
+    // {
+    //     path.Clear();
+    //     foreach (var item in adjs)
+    //     {
+    //         foreach (var value in item.Value)
+    //         {
+    //             value.image.color = Color.white;
+    //         }
+    //     }
+    //     StartCoroutine(PrintIE(test));
+    // }
+
+    // public IEnumerator PrintIE(Test test)
+    // {
+    //     if (path.Contains(test))
+    //     {
+    //         yield break;
+    //     }
+    //     yield return new WaitForSeconds(0.3f);
+    //     path.Add(test);
+    //     foreach (var item in adjs)
+    //     {
+    //         foreach (var value in item.Value)
+    //         {
+    //             value.image.color = Color.white;
+    //         }
+    //     }
+    //     test.image.color = Color.red;
+    //     foreach (var item in adjs[test])
+    //     {
+
+    //         // item.image.color = Color.green;
+    //         yield return StartCoroutine(PrintIE(item));
+    //     }
+
+    // }
+    public void Test()
     {
+        StopAllCoroutines();
         path.Clear();
         foreach (var item in adjs)
         {
@@ -85,42 +128,30 @@ public class TestManager : MonoBehaviour
                 value.image.color = Color.white;
             }
         }
-        StartCoroutine(PrintIE(test));
+        paths?.Clear();
+        TTTT(test1, paths);
+        StartCoroutine(YYYY());
     }
-
-    public IEnumerator PrintIE(Test test)
+    public IEnumerator YYYY()
     {
-        if (path.Contains(test))
+        while (true)
         {
-            yield break;
-        }
-        yield return new WaitForSeconds(0.3f);
-        path.Add(test);
-        foreach (var item in adjs)
-        {
-            foreach (var value in item.Value)
+            var paths = this.paths;
+            List<Tree<Test>> trees = new();
+            paths.root.Print(trees);
+            foreach (var item in trees)
             {
-                value.image.color = Color.white;
+                Debug.Log(item.self.transform.name);
+            }
+            isTEst = false;
+            // yield return new WaitUntil(() => isTEst == true);
+            yield return new WaitForSeconds(0.1f);
+            foreach (var item in trees)
+            {
+                TTTT(item.self, item);
             }
         }
-        test.image.color = Color.red;
-        foreach (var item in adjs[test])
-        {
 
-            // item.image.color = Color.green;
-            yield return StartCoroutine(PrintIE(item));
-        }
-
-    }
-    public void YYYY()
-    {
-        var paths = this.paths;
-        List<Tree<Test>> trees = new();
-        paths.root.Print(trees);
-        foreach (var item in trees)
-        {
-            Debug.Log(item.self.transform.name);
-        }
         // while (paths != null)
         // {
         //     if (paths.children.Count == 0)
@@ -137,6 +168,7 @@ public class TestManager : MonoBehaviour
 
         // }
     }
+    // 为边界加一圈
     public void TTTT(Test test, Tree<Test> parent)
     {
         if (parent == null)
@@ -145,6 +177,7 @@ public class TestManager : MonoBehaviour
             paths.root = paths;
             paths.parent = null;
             parent = paths;
+            this.path.Add(test);
         }
         test.image.color = Color.green;
         var path = new Tree<Test>
@@ -155,12 +188,18 @@ public class TestManager : MonoBehaviour
         };
         foreach (var item in adjs[test])
         {
+            if (this.path.Contains(item))
+            {
+                continue;
+            }
             item.image.color = Color.red;
-            parent.children.Add(new(){
+            parent.children.Add(new()
+            {
                 self = item,
                 parent = parent,
                 root = parent.root
             });
+            this.path.Add(item);
         }
     }
 }
