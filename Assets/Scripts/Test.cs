@@ -8,7 +8,7 @@ public class Test : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        TestManager.instance.Print(this);
+        TestManager.instance.test1 = this;
     }
 
     private void Start() {
