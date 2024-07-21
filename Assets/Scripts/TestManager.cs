@@ -137,7 +137,6 @@ public class TestManager : MonoBehaviour
             var paths = this.paths;
             List<Tree<Test>> trees = new();
             paths.root.Print(trees);
-            // yield return new WaitUntil(() => isTEst == true);
             foreach (var item in trees)
             {
                 if (item.self == end)
