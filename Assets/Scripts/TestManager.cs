@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using UnityEngine;
 
 // 连连看：图存储 寻路(特殊处理的曼哈顿)回溯算法布置场景
@@ -20,6 +21,7 @@ public class TestManager : MonoBehaviour
     public Transform fu;
     public bool isTEst = false;
     public Test test1;
+    public Test end;
     private void Start()
     {
         Init(5, 9);
@@ -33,10 +35,6 @@ public class TestManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.A))
         {
             StartCoroutine(YYYY());
-        }
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            isTEst = true;
         }
 
     }
@@ -80,43 +78,6 @@ public class TestManager : MonoBehaviour
             }
         }
     }
-    // public void Print(Test test)
-    // {
-    //     path.Clear();
-    //     foreach (var item in adjs)
-    //     {
-    //         foreach (var value in item.Value)
-    //         {
-    //             value.image.color = Color.white;
-    //         }
-    //     }
-    //     StartCoroutine(PrintIE(test));
-    // }
-
-    // public IEnumerator PrintIE(Test test)
-    // {
-    //     if (path.Contains(test))
-    //     {
-    //         yield break;
-    //     }
-    //     yield return new WaitForSeconds(0.3f);
-    //     path.Add(test);
-    //     foreach (var item in adjs)
-    //     {
-    //         foreach (var value in item.Value)
-    //         {
-    //             value.image.color = Color.white;
-    //         }
-    //     }
-    //     test.image.color = Color.red;
-    //     foreach (var item in adjs[test])
-    //     {
-
-    //         // item.image.color = Color.green;
-    //         yield return StartCoroutine(PrintIE(item));
-    //     }
-
-    // }
     public void Test()
     {
         StopAllCoroutines();
@@ -132,6 +93,43 @@ public class TestManager : MonoBehaviour
         TTTT(test1, paths);
         StartCoroutine(YYYY());
     }
+    public void Navigate(Test start, Test end)
+    {
+        // 遍历过的格子
+        List<Test> path = new();
+        // 路径树
+        Tree<Test> current = new();
+        current.self = start;
+        current.root = current;
+        current.parent = null;
+        path.Add(current.self);
+        // 开始查找
+        while (current.self != end)
+        {
+            // 每次未找到都阔大一圈
+            foreach (var item in adjs[current.self])
+            {
+                // 该格子没走过
+                if (path.Contains(item))
+                {
+                    continue;
+                }
+                item.image.color = Color.red;
+                current.children.Add(new()
+                {
+                    self = item,
+                    parent = current,
+                    root = current.root
+                });
+                path.Add(item);
+                // 找到目标
+                if (item == end)
+                {
+                    break;
+                }
+            }
+        }
+    }
     public IEnumerator YYYY()
     {
         while (true)
@@ -139,38 +137,34 @@ public class TestManager : MonoBehaviour
             var paths = this.paths;
             List<Tree<Test>> trees = new();
             paths.root.Print(trees);
+            // yield return new WaitUntil(() => isTEst == true);
             foreach (var item in trees)
             {
-                Debug.Log(item.self.transform.name);
+                if (item.self == end)
+                {
+                    var current = item;
+                    List<Test> path = new();
+                    while (current != current.root)
+                    {
+                        path.Add(current.self);
+                        current.self.image.color = Color.black;
+                        current = current.parent;
+                    }
+                    yield break;
+                }
             }
-            isTEst = false;
-            // yield return new WaitUntil(() => isTEst == true);
             yield return new WaitForSeconds(0.1f);
+
             foreach (var item in trees)
             {
                 TTTT(item.self, item);
             }
         }
-
-        // while (paths != null)
-        // {
-        //     if (paths.children.Count == 0)
-        //     {
-        //         TTTT(paths.self, paths);
-        //     }
-        //     foreach (var item in paths.children)
-        //     {
-
-        //     }
-        // }
-        // while (paths.children.Count != 0)
-        // {
-
-        // }
     }
-    // 为边界加一圈
+    // 为某个格子加一圈
     public void TTTT(Test test, Tree<Test> parent)
     {
+        // 若没有，设置根节点
         if (parent == null)
         {
             paths = new();
@@ -236,5 +230,10 @@ public class Tree<T>
         {
             item.Print(values);
         }
+    }
+
+    public void Inquire(Tree<T> content)
+    {
+
     }
 }
