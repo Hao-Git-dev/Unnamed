@@ -21,6 +21,7 @@ public class TestManager : MonoBehaviour
     public Transform fu;
     public bool isTEst = false;
     public Test test1;
+    public Test start;
     public Test end;
     private void Start()
     {
@@ -28,15 +29,7 @@ public class TestManager : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            TTTT(test1, paths);
-        }
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            StartCoroutine(YYYY());
-        }
-
+       
     }
 
     public void Init(int row, int line)
@@ -80,7 +73,6 @@ public class TestManager : MonoBehaviour
     }
     public void Test()
     {
-        StopAllCoroutines();
         path.Clear();
         foreach (var item in adjs)
         {
@@ -90,8 +82,8 @@ public class TestManager : MonoBehaviour
             }
         }
         paths?.Clear();
-        TTTT(test1, paths);
-        StartCoroutine(YYYY());
+        TTTT(start, paths);
+        YYYY();
     }
     public void Navigate(Test start, Test end)
     {
@@ -114,7 +106,7 @@ public class TestManager : MonoBehaviour
                 {
                     continue;
                 }
-                item.image.color = Color.red;
+                // item.image.color = Color.red;
                 current.children.Add(new()
                 {
                     self = item,
@@ -130,13 +122,13 @@ public class TestManager : MonoBehaviour
             }
         }
     }
-    public IEnumerator YYYY()
+    public void YYYY()
     {
         while (true)
         {
             var paths = this.paths;
             List<Tree<Test>> trees = new();
-            paths.root.Print(trees);
+            paths.root.FindEdge(trees);
             foreach (var item in trees)
             {
                 if (item.self == end)
@@ -146,13 +138,13 @@ public class TestManager : MonoBehaviour
                     while (current != current.root)
                     {
                         path.Add(current.self);
-                        current.self.image.color = Color.black;
+                        current.self.image.color = Color.red;
                         current = current.parent;
                     }
-                    yield break;
+                     path.Add(current.root.self);
+                    return;
                 }
             }
-            yield return new WaitForSeconds(0.1f);
 
             foreach (var item in trees)
             {
@@ -160,7 +152,7 @@ public class TestManager : MonoBehaviour
             }
         }
     }
-    // 为某个格子加一圈
+    // 查找边缘
     public void TTTT(Test test, Tree<Test> parent)
     {
         // 若没有，设置根节点
@@ -172,7 +164,7 @@ public class TestManager : MonoBehaviour
             parent = paths;
             this.path.Add(test);
         }
-        test.image.color = Color.green;
+        // test.image.color = Color.green;
         var path = new Tree<Test>
         {
             self = test,
@@ -185,7 +177,7 @@ public class TestManager : MonoBehaviour
             {
                 continue;
             }
-            item.image.color = Color.red;
+            // item.image.color = Color.red;
             parent.children.Add(new()
             {
                 self = item,
@@ -218,7 +210,7 @@ public class Tree<T>
         }
     }
 
-    public void Print(List<Tree<T>> values)
+    public void FindEdge(List<Tree<T>> values)
     {
         if (children.Count == 0)
         {
@@ -227,7 +219,7 @@ public class Tree<T>
         }
         foreach (var item in children)
         {
-            item.Print(values);
+            item.FindEdge(values);
         }
     }
 
