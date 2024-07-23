@@ -24,21 +24,20 @@ public class TestManager : MonoBehaviour
     public Test end;
     private void Start()
     {
-        Init(5, 9);
+        Init(9);
     }
     private void Update()
     {
-       
-    }
 
-    public void Init(int row, int line)
+    }
+    public void Init(int line)
     {
         // todo 根据数量计算宽高
-        // var cont = fu.GetComponent<GridLayoutGroup>();
-        // var rect = fu.GetComponent<RectTransform>();
-        // var k = rect.sizeDelta.x;
-        // var g = rect.sizeDelta.y;
-        // cont.cellSize = new UnityEngine.Vector2(k / line, g / row);
+        var cont = fu.GetComponent<GridLayoutGroup>();
+        var rect = fu.GetComponent<RectTransform>();
+        var k = rect.sizeDelta.x / line;
+        cont.cellSize = new UnityEngine.Vector2(k , k);
+        int row = (int)(rect.sizeDelta.y / k);
         List<List<Test>> tests = new();
         for (int i = 0; i < row; i++)
         {
@@ -139,19 +138,19 @@ public class TestManager : MonoBehaviour
                 if (item.self == end)
                 {
                     var current = item;
-                    List<Test> path = new(); 
+                    List<Test> path = new();
                     while (true)
                     {
                         path.Add(current.self);
                         current.self.image.color = Color.red;
-                        
+
                         if (current == current.root)
                         {
                             return;
                         }
                         current = current.parent;
                     }
-                    
+
                 }
             }
 
