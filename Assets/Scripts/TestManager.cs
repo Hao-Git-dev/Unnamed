@@ -19,8 +19,6 @@ public class TestManager : MonoBehaviour
     public Tree<Test> paths;
     public GameObject gobj;
     public Transform fu;
-    public bool isTEst = false;
-    public Test test1;
     public Test start;
     public Test end;
     private void Start()
@@ -81,7 +79,7 @@ public class TestManager : MonoBehaviour
                 value.image.color = Color.white;
             }
         }
-        paths?.Clear();
+        paths = null;
         TTTT(start, paths);
         YYYY();
     }
@@ -134,15 +132,19 @@ public class TestManager : MonoBehaviour
                 if (item.self == end)
                 {
                     var current = item;
-                    List<Test> path = new();
-                    while (current != current.root)
+                    List<Test> path = new(); 
+                    while (true)
                     {
                         path.Add(current.self);
                         current.self.image.color = Color.red;
+                        
+                        if (current == current.root)
+                        {
+                            return;
+                        }
                         current = current.parent;
                     }
-                     path.Add(current.root.self);
-                    return;
+                    
                 }
             }
 
@@ -161,6 +163,7 @@ public class TestManager : MonoBehaviour
             paths = new();
             paths.root = paths;
             paths.parent = null;
+            paths.self = test;
             parent = paths;
             this.path.Add(test);
         }
@@ -205,7 +208,7 @@ public class Tree<T>
         }
         else
         {
-            root.Clear();
+            root = null;
             return;
         }
     }
