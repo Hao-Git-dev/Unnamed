@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
 using UnityEngine;
+using UnityEngine.UI;
 
 // 连连看：图存储 寻路(特殊处理的曼哈顿)回溯算法布置场景
 // 消消乐：射线只判断移动的，由于新加入的随机性和需要判断全局避免出现无法消除的可能，详细判断算法待推敲
@@ -32,6 +33,12 @@ public class TestManager : MonoBehaviour
 
     public void Init(int row, int line)
     {
+        // todo 根据数量计算宽高
+        // var cont = fu.GetComponent<GridLayoutGroup>();
+        // var rect = fu.GetComponent<RectTransform>();
+        // var k = rect.sizeDelta.x;
+        // var g = rect.sizeDelta.y;
+        // cont.cellSize = new UnityEngine.Vector2(k / line, g / row);
         List<List<Test>> tests = new();
         for (int i = 0; i < row; i++)
         {
