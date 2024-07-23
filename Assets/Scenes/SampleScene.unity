@@ -224,10 +224,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 922612427}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &692917752
 MonoBehaviour:
@@ -250,7 +250,7 @@ MonoBehaviour:
   m_StartCorner: 0
   m_StartAxis: 0
   m_CellSize: {x: 200, y: 200}
-  m_Spacing: {x: 10, y: 10}
+  m_Spacing: {x: 0, y: 0}
   m_Constraint: 0
   m_ConstraintCount: 2
 --- !u!114 &692917753
@@ -414,8 +414,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1082086488db7724894fac484eba6b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  path: []
   gobj: {fileID: 1041958328528894178, guid: 1f28ff7b2a407994ba4f81d5c72ae032, type: 3}
   fu: {fileID: 692917751}
+  start: {fileID: 0}
+  end: {fileID: 0}
 --- !u!4 &722855298
 Transform:
   m_ObjectHideFlags: 0
