@@ -18,7 +18,7 @@ public class TestManager : MonoBehaviour
     public Dictionary<Test, List<Test>> adjs = new();
     public List<Test> path = new();
     public Tree<Test> paths;
-    public GameObject gobj;
+    public GameObject gobjs;
     public Transform fu;
     public Test start;
     public Test end;
@@ -36,7 +36,7 @@ public class TestManager : MonoBehaviour
         var cont = fu.GetComponent<GridLayoutGroup>();
         var rect = fu.GetComponent<RectTransform>();
         var k = rect.sizeDelta.x / line;
-        cont.cellSize = new UnityEngine.Vector2(k , k);
+        cont.cellSize = new UnityEngine.Vector2(k, k);
         int row = (int)(rect.sizeDelta.y / k);
         List<List<Test>> tests = new();
         for (int i = 0; i < row; i++)
@@ -44,7 +44,7 @@ public class TestManager : MonoBehaviour
             tests.Add(new List<Test>());
             for (int j = 0; j < line; j++)
             {
-                Test test = Instantiate(gobj, fu).GetComponent<Test>();
+                Test test = Instantiate(gobjs, fu).GetComponent<Test>();
                 test.transform.name = "图" + $"{i}{j}";
                 tests[i].Add(test);
             }
@@ -77,6 +77,14 @@ public class TestManager : MonoBehaviour
     }
     public void Test()
     {
+        if (start.index != end.index)
+        {
+            start.image.color = Color.white;
+            end.image.color = Color.white;
+            start = null;
+            end = null;
+            return;
+        }
         path.Clear();
         foreach (var item in adjs)
         {
@@ -146,10 +154,13 @@ public class TestManager : MonoBehaviour
 
                         if (current == current.root)
                         {
+                            start.image.gameObject.SetActive(false);
+                            end.image.gameObject.SetActive(false);
                             return;
                         }
                         current = current.parent;
                     }
+                    
 
                 }
             }
