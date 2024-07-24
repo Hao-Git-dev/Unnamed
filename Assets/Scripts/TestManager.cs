@@ -136,6 +136,7 @@ public class TestManager : MonoBehaviour
     }
     public void YYYY()
     {
+        // 如果找不到路的判断需要加
         while (true)
         {
             var paths = this.paths;
@@ -198,6 +199,7 @@ public class TestManager : MonoBehaviour
                 continue;
             }
             // item.image.color = Color.red;
+            // 此处加判断,是否可走
             parent.children.Add(new()
             {
                 self = item,
