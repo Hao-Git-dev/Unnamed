@@ -114,7 +114,14 @@ namespace JKFrame
         // 释放
         public void Freed()
         {
-
+            if (maxCapacity < 0)
+            {
+                return;
+            }
+            while (PoolQueue.Count > maxCapacity)
+            {
+                PoolQueue.Dequeue();
+            }
         }
         #endregion
 

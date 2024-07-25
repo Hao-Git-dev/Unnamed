@@ -26,11 +26,11 @@ namespace JKFrame
         /// </summary>
         public bool PushObj(object obj)
         {
-            // 检测是不是超过容量
-            if (maxCapacity != -1 && PoolQueue.Count >= maxCapacity)
-            {
-                return false;
-            }
+            // // 检测是不是超过容量
+            // if (maxCapacity != -1 && PoolQueue.Count >= maxCapacity)
+            // {
+            //     return false;
+            // }
             PoolQueue.Enqueue(obj);
             return true;
         }
@@ -48,6 +48,7 @@ namespace JKFrame
         {
             PoolQueue.Clear();
             maxCapacity = -1;
+            // 对象池回收
             if (pushThisToPool)
             {
                 PoolSystem.PushObject(this);
@@ -56,7 +57,15 @@ namespace JKFrame
         // 释放
         public void Freed()
         {
-
+            if (maxCapacity < 0)
+            {
+                return;
+            }
+            while (PoolQueue.Count > maxCapacity)
+            {
+                PoolQueue.Dequeue();
+            }
+            
         }
         #endregion
 
