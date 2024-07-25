@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+// 基本差不多，想办法合并
 namespace JKFrame
 {
     /// <summary>
