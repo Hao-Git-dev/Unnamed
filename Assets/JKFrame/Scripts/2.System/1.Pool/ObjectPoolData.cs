@@ -10,7 +10,7 @@ namespace JKFrame
         #region ObjectPoolData持有的数据及初始化方法
         // 对象容器
         public Queue<object> PoolQueue;
-        // 容量限制 -1代表无限
+        // 常驻容量 -1代表无限
         public int maxCapacity = -1;
         public ObjectPoolData(int capacity = -1)
         {
@@ -53,7 +53,14 @@ namespace JKFrame
                 PoolSystem.PushObject(this);
             }
         }
+        // 释放
+        public void Freed()
+        {
+
+        }
         #endregion
+
+
 
     }
 }

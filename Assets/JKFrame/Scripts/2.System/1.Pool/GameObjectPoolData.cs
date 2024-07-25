@@ -111,6 +111,11 @@ namespace JKFrame
             PoolQueue.Clear();
             RootTransform = null;
         }
+        // 释放
+        public void Freed()
+        {
+
+        }
         #endregion
 
     }
