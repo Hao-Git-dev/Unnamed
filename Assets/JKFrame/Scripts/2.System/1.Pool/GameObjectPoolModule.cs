@@ -30,7 +30,7 @@ namespace JKFrame
         {
             if (defaultQuantity > maxCapacity && maxCapacity != -1)
             {
-                JKLog.Error("默认容量超出最大容量限制");
+                Debug.LogError("默认容量超出最大容量限制");
                 return;
             }
             //设置的对象池已经存在
@@ -43,7 +43,7 @@ namespace JKFrame
                 //在指定默认容量和默认对象时才有意义
                 if (defaultQuantity > 0)
                 {
-                    if (prefab.IsNull() == false)
+                    if (prefab)
                     {
                         int nowCapacity = poolData.PoolQueue.Count;
                         // 生成差值容量个数的物体放入对象池
@@ -56,7 +56,7 @@ namespace JKFrame
                     }
                     else
                     {
-                        JKLog.Error("默认对象未指定");
+                        Debug.LogError("默认对象未指定");
                     }
                 }
 
@@ -70,7 +70,7 @@ namespace JKFrame
                 //在指定默认容量和默认对象时才有意义
                 if (defaultQuantity != 0)
                 {
-                    if (prefab.IsNull() == false)
+                    if (prefab)
                     {
                         // 生成容量个数的物体放入对象池
                         for (int i = 0; i < defaultQuantity; i++)
@@ -82,7 +82,7 @@ namespace JKFrame
                     }
                     else
                     {
-                        JKLog.Error("默认容量或默认对象未指定");
+                        Debug.LogError("默认容量或默认对象未指定");
                     }
                 }
             }
@@ -110,7 +110,7 @@ namespace JKFrame
         {
             if (gameObjects.Length > maxCapacity && maxCapacity != -1)
             {
-                JKLog.Error("默认容量超出最大容量限制");
+                Debug.LogError("默认容量超出最大容量限制");
                 return;
             }
 

@@ -45,8 +45,8 @@ namespace JKFrame
         {
             GameObjectPoolModule.InitObjectPool(keyName, maxCapacity, prefab, defaultQuantity);
 #if UNITY_EDITOR
-            if (JKFrameRoot.EditorEventModule != null)
-                JKFrameRoot.EditorEventModule.EventTrigger<string, int>("OnInitGameObjectPool", keyName, defaultQuantity);
+            // if (JKFrameRoot.EditorEventModule != null)
+            //     JKFrameRoot.EditorEventModule.EventTrigger<string, int>("OnInitGameObjectPool", keyName, defaultQuantity);
 #endif
         }
         /// <summary>
@@ -59,8 +59,8 @@ namespace JKFrame
         {
             GameObjectPoolModule.InitObjectPool(keyName, maxCapacity, gameObjects);
 #if UNITY_EDITOR
-            if (JKFrameRoot.EditorEventModule != null)
-                JKFrameRoot.EditorEventModule.EventTrigger<string, int>("OnInitGameObjectPool", keyName, gameObjects.Length);
+            // if (JKFrameRoot.EditorEventModule != null)
+            //     JKFrameRoot.EditorEventModule.EventTrigger<string, int>("OnInitGameObjectPool", keyName, gameObjects.Length);
 #endif
         }
 
@@ -84,7 +84,7 @@ namespace JKFrame
         {
             GameObject go = GameObjectPoolModule.GetObject(keyName, parent);
 #if UNITY_EDITOR
-            if (go != null && JKFrameRoot.EditorEventModule != null) JKFrameRoot.EditorEventModule.EventTrigger<string, int>("OnGetGameObject", keyName, 1);
+            // if (go != null && JKFrameRoot.EditorEventModule != null) JKFrameRoot.EditorEventModule.EventTrigger<string, int>("OnGetGameObject", keyName, 1);
 #endif
             return go;
         }
@@ -107,18 +107,18 @@ namespace JKFrame
         /// <param name="obj">放入的物体</param>
         public static bool PushGameObject(string keyName, GameObject obj)
         {
-            if (!obj.IsNull())
+            if (!obj)
             {
                 bool res = GameObjectPoolModule.PushObject(keyName, obj);
 #if UNITY_EDITOR
-                if (JKFrameRoot.EditorEventModule != null && res)
-                    JKFrameRoot.EditorEventModule.EventTrigger<string, int>("OnPushGameObject", keyName, 1);
+                // if (JKFrameRoot.EditorEventModule != null && res)
+                //     JKFrameRoot.EditorEventModule.EventTrigger<string, int>("OnPushGameObject", keyName, 1);
 #endif
                 return res;
             }
             else
             {
-                JKLog.Error("您正在将Null放置对象池");
+                Debug.LogError("您正在将Null放置对象池");
                 return false;
 
             }
@@ -141,8 +141,8 @@ namespace JKFrame
         {
             GameObjectPoolModule.Clear(keyName);
 #if UNITY_EDITOR
-            if (JKFrameRoot.EditorEventModule != null)
-                JKFrameRoot.EditorEventModule.EventTrigger<string>("OnClearGameObject", keyName);
+            // if (JKFrameRoot.EditorEventModule != null)
+            //     JKFrameRoot.EditorEventModule.EventTrigger<string>("OnClearGameObject", keyName);
 #endif
         }
         #endregion
@@ -159,8 +159,8 @@ namespace JKFrame
         {
             ObjectPoolModule.InitObjectPool<T>(keyName, maxCapacity, defaultQuantity);
 #if UNITY_EDITOR
-            if (JKFrameRoot.EditorEventModule != null)
-                JKFrameRoot.EditorEventModule.EventTrigger<string, int>("OnInitObjectPool", keyName, defaultQuantity);
+            // if (JKFrameRoot.EditorEventModule != null)
+            //     JKFrameRoot.EditorEventModule.EventTrigger<string, int>("OnInitObjectPool", keyName, defaultQuantity);
 #endif
         }
         /// <summary>
@@ -181,8 +181,8 @@ namespace JKFrame
         {
             ObjectPoolModule.InitObjectPool(keyName, maxCapacity);
 #if UNITY_EDITOR
-            if (JKFrameRoot.EditorEventModule != null)
-                JKFrameRoot.EditorEventModule.EventTrigger<string, int>("OnInitObjectPool", keyName, 0);
+            // if (JKFrameRoot.EditorEventModule != null)
+            //     JKFrameRoot.EditorEventModule.EventTrigger<string, int>("OnInitObjectPool", keyName, 0);
 #endif
         }
 
@@ -195,8 +195,8 @@ namespace JKFrame
         {
             ObjectPoolModule.InitObjectPool(type, maxCapacity);
 #if UNITY_EDITOR
-            if (JKFrameRoot.EditorEventModule != null)
-                JKFrameRoot.EditorEventModule.EventTrigger<string, int>("OnInitObjectPool", type.FullName, 0);
+            // if (JKFrameRoot.EditorEventModule != null)
+            //     JKFrameRoot.EditorEventModule.EventTrigger<string, int>("OnInitObjectPool", type.FullName, 0);
 #endif
         }
 
@@ -234,8 +234,8 @@ namespace JKFrame
 #if UNITY_EDITOR
             if (obj != null)
             {
-                if (JKFrameRoot.EditorEventModule != null)
-                    JKFrameRoot.EditorEventModule.EventTrigger<string, int>("OnGetObject", keyName, 1);
+                // if (JKFrameRoot.EditorEventModule != null)
+                //     JKFrameRoot.EditorEventModule.EventTrigger<string, int>("OnGetObject", keyName, 1);
             }
 #endif
             return obj;
@@ -257,17 +257,17 @@ namespace JKFrame
         {
             if (obj == null)
             {
-                JKLog.Error("您正在将Null放置对象池");
+                Debug.LogError("您正在将Null放置对象池");
                 return false;
             }
             else
             {
                 bool res = ObjectPoolModule.PushObject(obj, keyName);
 #if UNITY_EDITOR
-                if (JKFrameRoot.EditorEventModule != null && res)
-                {
-                    JKFrameRoot.EditorEventModule.EventTrigger<string, int>("OnPushObject", keyName, 1);
-                }
+                // if (JKFrameRoot.EditorEventModule != null && res)
+                // {
+                //     JKFrameRoot.EditorEventModule.EventTrigger<string, int>("OnPushObject", keyName, 1);
+                // }
 #endif
                 return res;
             }
@@ -295,10 +295,10 @@ namespace JKFrame
         public static void ClearObject(string keyName)
         {
 #if UNITY_EDITOR
-            if (JKFrameRoot.EditorEventModule != null)
-            {
-                JKFrameRoot.EditorEventModule.EventTrigger<string>("OnClearnObject", keyName);
-            }
+            // if (JKFrameRoot.EditorEventModule != null)
+            // {
+            //     JKFrameRoot.EditorEventModule.EventTrigger<string>("OnClearnObject", keyName);
+            // }
 #endif
             ObjectPoolModule.ClearObject(keyName);
         }
@@ -315,17 +315,17 @@ namespace JKFrame
             {
                 GameObjectPoolModule.ClearAll();
 #if UNITY_EDITOR
-                JKFrameRoot.EditorEventModule.EventTrigger("OnClearAllGameObject");
+                // JKFrameRoot.EditorEventModule.EventTrigger("OnClearAllGameObject");
 #endif
             }
             if (clearCSharpObject)
             {
                 ObjectPoolModule.ClearAll();
 #if UNITY_EDITOR
-                if (JKFrameRoot.EditorEventModule != null)
-                {
-                    JKFrameRoot.EditorEventModule.EventTrigger("OnClearAllObject");
-                }
+                // if (JKFrameRoot.EditorEventModule != null)
+                // {
+                //     JKFrameRoot.EditorEventModule.EventTrigger("OnClearAllObject");
+                // }
 #endif
             }
         }
