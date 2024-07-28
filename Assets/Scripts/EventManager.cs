@@ -22,7 +22,7 @@ public class EventManager : MonoBehaviour
         }
     }
     public Dictionary<EventType, UnityEvent> events = new Dictionary<EventType, UnityEvent>();
-    public void AddEvent(EventType type, UnityAction e)
+    public void Subscribed(EventType type, UnityAction e)
     {
         if (!events.ContainsKey(type)) events.Add(type, new());
         events[type].AddListener(e);
@@ -33,7 +33,7 @@ public class EventManager : MonoBehaviour
         events[type].RemoveListener(e);
     }
 
-    public void TriggerEvent(EventType type)
+    public void Distribute(EventType type)
     {
         if (!events.ContainsKey(type)) return;
         events[type].Invoke();
