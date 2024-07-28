@@ -38,4 +38,6 @@ public class EventManager : MonoBehaviour
         if (!events.ContainsKey(type)) return;
         events[type].Invoke();
     }
+
+    
 }

@@ -7,7 +7,7 @@ namespace JKFrame
     /// </summary>
     public class ObjectPoolData
     {
-        #region ObjectPoolData持有的数据及初始化方法
+
         // 对象容器
         public Queue<object> PoolQueue;
         // 常驻容量 -1代表无限
@@ -18,7 +18,7 @@ namespace JKFrame
             if (maxCapacity == -1) PoolQueue = new Queue<object>();
             else PoolQueue = new Queue<object>(capacity);
         }
-        #endregion
+
 
         #region ObjectPool数据相关操作
         /// <summary>

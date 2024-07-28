@@ -6,7 +6,6 @@ public class ObjectPool<T> where T : class, new()
 {
     public Queue<T> PoolQueue;
 
-
     // 常驻容量 -1代表无限
     public int maxCapacity = -1;
 
