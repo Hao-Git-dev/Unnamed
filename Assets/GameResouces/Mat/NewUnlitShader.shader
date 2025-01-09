@@ -1,62 +1,52 @@
-Shader "Test/Shader1"
-{
-    Properties
-    {
-        _MainTex ("Texture", 2D) = "white" {}
-        _Int("我是int",Int) = 1
-        _Color("我是Color", Color) = (1,1,0,1)
-    }
-    SubShader
-    {
-        Tags { "RenderType"="Opaque" }
-        LOD 100
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
-        Pass
-        {
-            CGPROGRAM
-            #pragma vertex vert
-            #pragma fragment frag
-            // make fog work
-            #pragma multi_compile_fog
+Shader "Test/MyShaderName" { 
+    Properties { 
+        // 属性 
+    } 
+    SubShader { 
+        // 针对显卡A的SubShader 
+        Pass { 
+            // 设置渲染状态和标签 
+ 
+            // 开始Cg代码片段 
+            CGPROGRAM 
+            // 该代码片段的编译指令，例如： 
+            #pragma vertex vert 
+            #pragma fragment frag 
+ 
+            // Cg代码写在这里 
 
-            #include "UnityCG.cginc"
-
-            struct appdata
-            {
+            // Unity支持的语义有：POSITION, TANGENT，NORMAL，TEXCOORD0，TEXCOORD1，TEXCOORD2，TEXCOORD3，COLOR等
+            //格式：
+            // struct StructName {
+            //     Type Name : Semantic;
+            //     Type Name : Semantic;
+            //     .......
+            //    };
+               
+            struct a2v {
+                // POSITION语义告诉Unity，用模型空间的顶点坐标填充vertex变量
                 float4 vertex : POSITION;
-                float2 uv : TEXCOORD0;
-            };
-
-            struct v2f
-            {
-                float2 uv : TEXCOORD0;
-                UNITY_FOG_COORDS(1)
-                float4 vertex : SV_POSITION;
-            };
-
-            sampler2D _MainTex;
-            float4 _MainTex_ST;
-
-            v2f vert (appdata v)
-            {
-                v2f o;
-                o.vertex = UnityObjectToClipPos(v.vertex);
-                o.uv = TRANSFORM_TEX(v.uv, _MainTex);
-                UNITY_TRANSFER_FOG(o,o.vertex);
-                return o;
+                // NORMAL语义告诉Unity，用模型空间的法线方向填充normal变量
+                float3 normal : NORMAL;
+                // TEXCOORD0语义告诉Unity，用模型的第一套纹理坐标填充texcoord变量
+                float4 texcoord : TEXCOORD0;
+                };
+               
+            float4 vert(float4 v : POSITION) : SV_POSITION { 
+                return UnityObjectToClipPos (v); 
+            } 
+            fixed4 frag() : SV_Target { 
+                return fixed4(1.0, 0, 0, 1.0);
             }
-
-            fixed4 frag (v2f i) : SV_Target
-            {
-                // sample the texture
-                fixed4 col = tex2D(_MainTex, i.uv);
-                // apply fog
-                UNITY_APPLY_FOG(i.fogCoord, col);
-                return col;
-            }
-            ENDCG
-        }
-    }
-    FallBack "Diffuse"
-    CustomEditor "EditorName"
+            ENDCG 
+ 
+            // 其他设置 
+        } 
+        // 其他需要的Pass 
+           
+    } 
+    // 上述SubShader都失败后用于回调的Unity Shader 
+    Fallback "VertexLit" 
 }
