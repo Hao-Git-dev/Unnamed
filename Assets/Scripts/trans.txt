@@ -1,0 +1,201 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class IEventInfo { }
+public class EventData<TAction> : IEventInfo where TAction : Delegate
+{
+    public List<TAction> actions;
+    public EventData()
+    {
+        actions = new List<TAction>();
+    }
+}
+public static class EventSystem
+{
+    public static Dictionary<string, IEventInfo> eventDic = new();
+
+
+    #region  订阅
+    /// <summary>
+    /// 无参
+    /// </summary>
+    /// <param name="eventType">要监听的事件</param>
+    /// <param name="">方法</param>
+    public static void Subscribed(string eventType, Action action)
+    {
+        if (!eventDic.ContainsKey(eventType))
+        {
+            eventDic.Add(eventType, new EventData<Action>());
+        }
+        var eventData = eventDic[eventType] as EventData<Action>;
+        eventData.actions.Add(action);
+    }
+
+    /// <summary>
+    /// 一参
+    /// </summary>
+    public static void Subscribed<T>(string eventType, Action<T> action)
+    {
+        if (!eventDic.ContainsKey(eventType))
+        {
+            eventDic.Add(eventType, new EventData<Action<T>>());
+        }
+        var eventData = eventDic[eventType] as EventData<Action<T>>;
+        eventData.actions.Add(action);
+    }
+    /// <summary>
+    /// 两参
+    /// </summary>
+    public static void Subscribed<T, T1>(string eventType, Action<T, T1> action)
+    {
+        if (!eventDic.ContainsKey(eventType))
+        {
+            eventDic.Add(eventType, new EventData<Action<T, T1>>());
+        }
+        var eventData = eventDic[eventType] as EventData<Action<T, T1>>;
+        eventData.actions.Add(action);
+    }
+    /// <summary>
+    /// 三参
+    /// </summary>
+    public static void Subscribed<T, T1, T2>(string eventType, Action<T, T1, T2> action)
+    {
+        if (!eventDic.ContainsKey(eventType))
+        {
+            eventDic.Add(eventType, new EventData<Action<T, T1, T2>>());
+        }
+        var eventData = eventDic[eventType] as EventData<Action<T, T1, T2>>;
+        eventData.actions.Add(action);
+    }
+    /// <summary>
+    /// 四参
+    /// </summary>
+    public static void Subscribed<T, T1, T2, T3>(string eventType, Action<T, T1, T2, T3> action)
+    {
+        if (!eventDic.ContainsKey(eventType))
+        {
+            eventDic.Add(eventType, new EventData<Action<T, T1, T2, T3>>());
+        }
+        var eventData = eventDic[eventType] as EventData<Action<T, T1, T2, T3>>;
+        eventData.actions.Add(action);
+    }
+
+    /// <summary>
+    /// 五参
+    /// </summary>
+    public static void Subscribed<T, T1, T2, T3, T4>(string eventType, Action<T, T1, T2, T3, T4> action)
+    {
+        if (!eventDic.ContainsKey(eventType))
+        {
+            eventDic.Add(eventType, new EventData<Action<T, T1, T2, T3, T4>>());
+        }
+        var eventData = eventDic[eventType] as EventData<Action<T, T1, T2, T3, T4>>;
+        eventData.actions.Add(action);
+    }
+    #endregion
+
+
+    #region  取消订阅
+    public static void UnAllSubscribed(string eventType)
+    {
+        if (!eventDic.ContainsKey(eventType))
+        {
+            eventDic.Remove(eventType);
+        }
+    }
+    #endregion
+
+    #region  触发事件
+    /// <summary>
+    /// 无参
+    /// </summary>
+    /// <param name="eventType">要触发的事件</param>
+    /// <param name="">方法</param>
+    public static void Distribute(string eventType)
+    {
+        if (eventDic.ContainsKey(eventType))
+        {
+            var eventData = eventDic[eventType] as EventData<Action>;
+            foreach (var action in eventData.actions)
+            {
+                action.Invoke();
+            }
+        }
+    }
+
+    /// <summary>
+    /// 一参
+    /// </summary>
+    public static void Distribute<T>(string eventType, T arg1)
+    {
+        if (eventDic.ContainsKey(eventType))
+        {
+            var eventData = eventDic[eventType] as EventData<Action<T>>;
+            foreach (var action in eventData.actions)
+            {
+                action.Invoke(arg1);
+            }
+        }
+    }
+    /// <summary>
+    /// 两参
+    /// </summary>
+    public static void Distribute<T, T1>(string eventType, T arg1, T1 arg2)
+    {
+        if (eventDic.ContainsKey(eventType))
+        {
+            var eventData = eventDic[eventType] as EventData<Action<T, T1>>;
+            foreach (var action in eventData.actions)
+            {
+                action.Invoke(arg1, arg2);
+            }
+        }
+
+    }
+    /// <summary>
+    /// 三参
+    /// </summary>
+    public static void Distribute<T, T1, T2>(string eventType, T arg1, T1 arg2, T2 arg3)
+    {
+        if (eventDic.ContainsKey(eventType))
+        {
+            var eventData = eventDic[eventType] as EventData<Action<T, T1>>;
+            foreach (var action in eventData.actions)
+            {
+                action.Invoke(arg1, arg2);
+            }
+        }
+    }
+    /// <summary>
+    /// 四参
+    /// </summary>
+    public static void Distribute<T, T1, T2, T3>(string eventType, T arg1, T1 arg2, T2 arg3, T3 arg4)
+    {
+        if (eventDic.ContainsKey(eventType))
+        {
+            var eventData = eventDic[eventType] as EventData<Action<T, T1, T2, T3>>;
+            foreach (var action in eventData.actions)
+            {
+                action.Invoke(arg1, arg2, arg3, arg4);
+            }
+        }
+    }
+
+    /// <summary>
+    /// 五参
+    /// </summary>
+    public static void Distribute<T, T1, T2, T3, T4>(string eventType, T arg1, T1 arg2, T2 arg3, T3 arg4, T4 arg5)
+    {
+        if (eventDic.ContainsKey(eventType))
+        {
+            var eventData = eventDic[eventType] as EventData<Action<T, T1, T2, T3, T4>>;
+            foreach (var action in eventData.actions)
+            {
+                action.Invoke(arg1, arg2, arg3, arg4, arg5);
+            }
+        }
+    }
+    #endregion
+}
